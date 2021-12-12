@@ -2,25 +2,30 @@
 <div class="box-s">
   <form action="" method="get" >
     <div v-if="step === 'step 1'">
-      <h1 class="margin-b">Etape:1</h1>
+      <h1 class="margin-b" :style="{color:colorie}">Etape:1</h1>
       <TextInput msg=""  />
       <DateInput msg=""  />
+      <CouleurSelect msg="" />
       <button v-on:click="step='step 2'" class="margin-b button-67 margin-t" >valider</button>
     </div>
     <div v-if="step === 'step 2'">
-      <h1>Etape:2</h1>
+      <h1 :style="{color:colorie}">Etape:2</h1>
       <TextArea msg="" />
-      <MenuSelect msg="" v-on:couleur="onClickChild"/>
+      <MenuSelect msg="" />
       <button v-on:click="step='step 3'" class="button-67 margin-t">valider</button>
     </div>
     <div v-if="step === 'step 3'">
-      <h1>Etape:3</h1>
+      <h1 :style="{color:colorie}">Etape:3</h1>
       <MenuRadio msg="" />
-      <input type="submit" value="validation formulaire" class="button-67 margin-t">
+      <input type="submit" value="validation formulaire" class="button-67 margin-t" v-on:click="step='step 4'">
     </div>
+    <div v-if="step === 'step 4'">
+    <ProductList msg="" v-on:addcart="addList" />
+    </div>
+    <Button msg="" v-on:colorchangeblue="colorie='blue'" v-on:colorchangered="colorie='red'" v-on:colorchangegreen="colorie='green'" v-on:colorchangebasic="colorie=''" />
+    
   </form>
 </div>
-  
 </template>
 
 <script>
@@ -29,6 +34,9 @@ import DateInput from "./components/DateInput.vue";
 import TextArea from "./components/TextArea.vue";
 import MenuSelect from "./components/MenuSelect.vue";
 import MenuRadio from "./components/MenuRadio.vue";
+import Button from "./components/Button.vue";
+import CouleurSelect from "./components/CouleurSelect.vue";
+import ProductList from "./components/ProductList.vue";
 
 
 export default {
@@ -38,14 +46,23 @@ export default {
     DateInput,
     TextArea,
     MenuSelect,
-    MenuRadio
+    MenuRadio,
+    Button,
+    CouleurSelect,
+    ProductList
   },
   data() {
     return {
-      colorie: 'red',
-      step:'step 1'
+      colorie: '',
+      step:'step 1',
+      cart: ['pain', 'fromage', 'fleurs', 'vin']
     }
   },
+  methods: {
+    addList: function () {
+      this.cart.push( '{{item.name}}' );
+    }  
+  }
 }
 </script>
 
